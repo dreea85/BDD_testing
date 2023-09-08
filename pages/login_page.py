@@ -4,19 +4,19 @@ from pages.base_page import BasePage
 
 
 class LoginPage(BasePage):
-    LOGIN_PAGE_URL = "https://www.betterworldbooks.com/account/login"
-    INPUT_EMAIL = (By.ID, "loginEmail")
-    INPUT_PASSWORD = (By.ID, "loginPassword")
-    BUTTON_LOGIN = (By.CLASS_NAME, "form-control btn btn-success")
-    ERROR_MSG_MAIN = (By.XPATH, '(//span[@class="validation-error"])[1]')
+    LOGIN_PAGE_URL = "https://magento.softwaretestingboard.com/customer/account/login"
+    INPUT_EMAIL = (By.NAME, "login[username]")
+    INPUT_PASSWORD = (By.NAME, "login[password]")
+    BUTTON_LOGIN = (By.CSS_SELECTOR, "fieldset>div>div>button>span")
+    ERROR_MSG_MAIN = (By.XPATH, '//div[contains(text(),"The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.")]')
 
 
 
     def navigate_to_login_page(self):
         self.browser.get(self.LOGIN_PAGE_URL)
 
-    def set_email(self):
-        self.type(self.INPUT_EMAIL, "hihaho@yahoo.com")
+    def set_email(self, email):
+        self.type(self.INPUT_EMAIL, email)
 
     def set_password(self):
         self.type(self.INPUT_PASSWORD, "123")
@@ -24,5 +24,5 @@ class LoginPage(BasePage):
     def click_login_button(self):
         self.click(self.BUTTON_LOGIN)
 
-    def is_main_error_message_displayed(self):
-        return self.find(self.ERROR_MSG_MAIN).is_displayed()
+    def get_main_error_message(self):
+        return self.get_text(self.ERROR_MSG_MAIN)
